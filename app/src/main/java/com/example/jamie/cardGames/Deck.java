@@ -1,7 +1,5 @@
 package com.example.jamie.cardGames;
 
-import com.example.jamie.cardGames.HighCards.HighCardsUI;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,7 +9,6 @@ import java.util.Collections;
 
 public class Deck {
   public ArrayList<Card> cards;
-  public HighCardsUI highCardsUi = new HighCardsUI();
 
   public Deck() {
     this.cards = generateDeck();

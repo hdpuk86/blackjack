@@ -19,7 +19,7 @@ public abstract class CardGame {
   }
 
   public void deal(Player player) {
-    player.takeCard(deck);
+    player.takeCard(deck.deal());
   }
 
   public void dealToEveryone(int numberOfCards) {

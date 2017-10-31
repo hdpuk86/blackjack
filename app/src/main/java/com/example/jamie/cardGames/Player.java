@@ -1,6 +1,7 @@
 package com.example.jamie.cardGames;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Created by jamie on 26/10/2017.
@@ -15,8 +16,8 @@ public class Player {
     this.hand = new ArrayList<>();
   }
 
-  public void takeCard(Deck deck) {
-    this.hand.add(deck.deal());
+  public void takeCard(Card card) {
+    this.hand.add(card);
   }
 
   public int totalHand() {
@@ -24,6 +25,18 @@ public class Player {
     for (Card card : hand) {
       total += card.getRank().getValue();
     }
+
+    int aceCount = 0;
+    for (Card card : hand) {
+      if (card.getRank() == Rank.ACE) {
+        aceCount += 1;
+      }
+    }
+
+    if (total > 21) {
+      total -= 10 * aceCount;
+    }
+
     return total;
   }
 
@@ -40,5 +53,26 @@ public class Player {
 
   public Card playFirstCard() {
     return hand.remove(0);
+  }
+
+  public boolean stickOrTwist(Scanner sc) {
+    System.out.println("Stick or twist?");
+    String answer = sc.nextLine();
+
+    if (answer.equals("s")) {
+      return false;
+    } else if (answer.equals("t")) {
+      return true;
+    } else {
+      System.out.println("na.");
+    }
+    return true;
+  }
+
+  public void printHand() {
+    System.out.println(name + "'s cards are:");
+    for (Card card : hand) {
+      System.out.println(card.getRank() + " of " + card.getSuit());
+    }
   }
 }
