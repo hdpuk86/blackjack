@@ -8,12 +8,10 @@ import java.util.Scanner;
  */
 
 public class BlackjackGame {
-  Player player;
   Dealer dealer;
   ArrayList<Player> players;
   Scanner sc = new Scanner(System.in);
   BlackjackUI ui = new BlackjackUI();
-
   Boolean isWon;
 
   public BlackjackGame(ArrayList<Player> players) {
@@ -25,8 +23,7 @@ public class BlackjackGame {
 
   public void start() {
     dealToAll();
-
-    dealer.printTopCard();
+    ui.printDealerTopCard(dealer);
     for (Player player : players) {
       evaluateHand(player);
     }
@@ -42,7 +39,7 @@ public class BlackjackGame {
   }
 
   private void evaluateHand(Player player) {
-    player.printHand();
+    ui.printHand(player);
 
     if (checkBust(player)) {
       ui.goesBust(player);
@@ -77,6 +74,7 @@ public class BlackjackGame {
 
   private boolean checkAllBlackjack() {
     if (checkBlackjack(dealer)) {
+      ui.printScores(players);
       ui.blackjack(dealer);
       return true;
     }
@@ -84,6 +82,7 @@ public class BlackjackGame {
     boolean someoneBlackjack = false;
     for (Player player : players) {
       if (player.totalHand() == 21 && player.hand.size() == 2) {
+        ui.printScores(players);
         ui.blackjack(player);
         someoneBlackjack = true;
       }
@@ -96,35 +95,35 @@ public class BlackjackGame {
   }
 
   private boolean ifDealerBustWinners() {
-    boolean somebodyWon = false;
-
     if (checkBust(dealer)) {
       for (Player player : players) {
         if (!checkBust(player)) {
+          ui.printScores(players);
           ui.wins(player);
-          somebodyWon = true;
+          isWon = true;
         }
       }
     }
-    return somebodyWon;
+    return isWon;
   }
 
   private boolean whoBeatDealer() {
-    boolean somebodyWon = false;
-
+    ArrayList<Player> winners = new ArrayList<>();
     int dealerTotal = dealer.totalHand();
     for (Player player : players) {
       if (player.totalHand() > dealerTotal && !checkBust(player)) {
-        ui.wins(player);
-        somebodyWon = true;
+        winners.add(player);
+        isWon = true;
       }
     }
-
-    return somebodyWon;
+    ui.printScores(players);
+    ui.printMultipleWinners(winners);
+    return isWon;
   }
 
   private void checkIfDealerWins() {
     if (!checkBust(dealer)) {
+      ui.printScores(players);
       ui.wins(dealer);
     } else {
       ui.allBust();

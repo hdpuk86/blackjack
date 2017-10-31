@@ -32,9 +32,4 @@ public class Dealer extends Player {
     }
   }
 
-  public void printTopCard() {
-    System.out.println("Dealer's face-up card is:");
-    Card card = hand.get(1);
-    System.out.println(card.getRank() + " of " + card.getSuit() + "\n");
-  }
 }

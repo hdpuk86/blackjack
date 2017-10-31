@@ -8,71 +8,72 @@ import java.util.Scanner;
  */
 
 public class Player {
-  String name;
-  ArrayList<Card> hand;
+    String name;
+    ArrayList<Card> hand;
 
-  public Player(String name) {
-    this.name = name;
-    this.hand = new ArrayList<>();
-  }
-
-  public void takeCard(Card card) {
-    this.hand.add(card);
-  }
-
-  public int totalHand() {
-    int total = 0;
-    for (Card card : hand) {
-      total += card.getRank().getValue();
+    public Player(String name) {
+        this.name = name;
+        this.hand = new ArrayList<>();
     }
 
-    int aceCount = 0;
-    for (Card card : hand) {
-      if (card.getRank() == Rank.ACE) {
-        aceCount += 1;
-      }
+    public void takeCard(Card card) {
+        this.hand.add(card);
     }
 
-    if (total > 21) {
-      total -= 10 * aceCount;
+    public int totalHand() {
+        int total = 0;
+        for (Card card : hand) {
+            total += card.getRank().getValue();
+        }
+
+        int aceCount = 0;
+        for (Card card : hand) {
+            if (card.getRank() == Rank.ACE) {
+                aceCount += 1;
+            }
+        }
+
+        if (total > 21) {
+            total -= 10 * aceCount;
+        }
+
+        return total;
     }
 
-    return total;
-  }
-
-  public void burnHand() {
-    hand.clear();
-  }
-
-  public Deck returnHandToDeck(Deck deck) {
-    ArrayList<Card> tempHand = hand;
-    burnHand();
-    deck.cards.addAll(tempHand);
-    return deck;
-  }
-
-  public Card playFirstCard() {
-    return hand.remove(0);
-  }
-
-  public boolean stickOrTwist(Scanner sc) {
-    System.out.println("Stick or twist?");
-    String answer = sc.nextLine();
-
-    if (answer.equals("s")) {
-      return false;
-    } else if (answer.equals("t")) {
-      return true;
-    } else {
-      System.out.println("na.");
+    public void burnHand() {
+        hand.clear();
     }
-    return true;
-  }
 
-  public void printHand() {
-    System.out.println(name + "'s cards are:");
-    for (Card card : hand) {
-      System.out.println(card.getRank() + " of " + card.getSuit());
+    public Deck returnHandToDeck(Deck deck) {
+        ArrayList<Card> tempHand = hand;
+        burnHand();
+        deck.cards.addAll(tempHand);
+        return deck;
     }
-  }
+
+    public Card playFirstCard() {
+        return hand.remove(0);
+    }
+
+    public boolean stickOrTwist(Scanner sc) {
+        boolean valid;
+        valid = false;
+
+        while(!valid) {
+            System.out.println("Stick or twist? Enter T to twist or S to stick");
+            String answer = sc.nextLine();
+            if (answer.toLowerCase().equals("s")) {
+                valid = true;
+                return false;
+            } else if (answer.toLowerCase().equals("t")) {
+                valid = true;
+                return true;
+            } else {
+                valid = false;
+                System.out.println("not valid");
+            }
+        }
+        return true;
+    }
+
 }
