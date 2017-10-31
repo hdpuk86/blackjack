@@ -1,4 +1,4 @@
-package com.example.jamie.cardGames;
+package com.example.jamie.blackjack;
 
 import java.util.ArrayList;
 import java.util.Scanner;
